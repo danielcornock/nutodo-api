@@ -2,15 +2,19 @@ import { TodoRoutes } from './todo.routes';
 import { Router } from 'express';
 import { StubCreator, ExpressRouterStub, ResStub, ReqStub } from '@danielc7150/express-utils/lib';
 import { IReq, IRes } from '@danielc7150/express-utils';
+import { TodoController } from '../controller/todo.controller';
+import { TodoControllerStub } from '../controller/todo.controller.stub';
 
 describe('TodoRoutes', () => {
-  let todoRoutes: TodoRoutes, expressRouter: Router, resMock: IRes, reqMock: IReq;
+  let todoRoutes: TodoRoutes, expressRouter: Router, resMock: IRes, reqMock: IReq, todoController: TodoController, nextMock: jest.Mock;
 
   beforeEach(() => {
     resMock = StubCreator.create(ResStub);
     reqMock = StubCreator.create(ReqStub);
+    nextMock = jest.fn();
     expressRouter = StubCreator.create(ExpressRouterStub);
-    todoRoutes = new TodoRoutes(expressRouter);
+    todoController = new TodoControllerStub();
+    todoRoutes = new TodoRoutes(expressRouter, todoController);
   });
 
   it('should assign the routes', () => {
@@ -23,7 +27,7 @@ describe('TodoRoutes', () => {
     });
 
     it('should respond with todo', () => {
-      expect(resMock.send).toHaveBeenCalledWith('todo');
+      expect(todoController.getAll).toHaveBeenCalledWith(reqMock, resMock);
     });
   });
 });
