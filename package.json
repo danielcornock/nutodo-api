@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "tsc-watch --onSuccess \"npm start\"",
     "start": "node ./dist/server.js",
-    "test": "jest --watch"
+    "test": "jest --watch",
+    "test:cov": "jest --coverage --config jest.config.json --no-cache"
   },
   "keywords": [
     "node",
@@ -35,25 +36,6 @@
     "ts-node": "^8.6.2",
     "tslint": "^6.0.0",
     "typescript": "^3.7.5"
-  },
-  "jest": {
-    "moduleFileExtensions": [
-      "json",
-      "ts"
-    ],
-    "rootDir": "src",
-    "modulePaths": [
-      "<rootDir>"
-    ],
-    "testRegex": ".spec.ts$",
-    "transform": {
-      "^.+\\.(t|j)s$": "ts-jest"
-    },
-    "coveragePathIgnorePatterns": [
-      "factories"
-    ],
-    "coverageDirectory": "./coverage",
-    "testEnvironment": "node"
   },
   "engines": {
     "node": ">=8.0.0",
