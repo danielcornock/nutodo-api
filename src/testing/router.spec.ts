@@ -7,12 +7,10 @@ describe('AppRouter', () => {
   let router: AppRouter, expressRouterStub: Router;
 
   beforeEach(() => {
-    const nestedRoutes: Router = StubCreator.fake('router');
-
     expressRouterStub = StubCreator.create(ExpressRouterStub);
-    jest.spyOn(expressRouterStub, 'use');
 
-    jest.spyOn(RouterFactory, 'create').mockReturnValue(nestedRoutes);
+    jest.spyOn(expressRouterStub, 'use');
+    jest.spyOn(RouterFactory, 'create').mockReturnValue(StubCreator.fake('router'));
 
     router = new AppRouter(expressRouterStub);
   });
