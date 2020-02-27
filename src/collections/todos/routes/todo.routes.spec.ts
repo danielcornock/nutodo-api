@@ -13,21 +13,23 @@ describe('TodoRoutes', () => {
     reqMock = StubCreator.create(ReqStub);
     nextMock = jest.fn();
     expressRouter = StubCreator.create(ExpressRouterStub);
-    todoController = new TodoControllerStub();
+    todoController = StubCreator.create(TodoControllerStub);
     todoRoutes = new TodoRoutes(expressRouter, todoController);
   });
 
-  it('should assign the routes', () => {
+  it('should mount the routes', () => {
     expect(expressRouter.get).toHaveBeenCalledWith('/', expect.any(Function));
   });
 
-  describe('when getting all todos', () => {
+  describe('when assigning the routes', () => {
     beforeEach(() => {
       (expressRouter.get as jest.Mock).mock.calls[0][1](reqMock, resMock);
+      (expressRouter.post as jest.Mock).mock.calls[0][1](reqMock, resMock);
     });
 
-    it('should respond with todo', () => {
+    it('should assign the routes', () => {
       expect(todoController.getAll).toHaveBeenCalledWith(reqMock, resMock);
+      expect(todoController.create).toHaveBeenCalledWith(reqMock, resMock);
     });
   });
 });

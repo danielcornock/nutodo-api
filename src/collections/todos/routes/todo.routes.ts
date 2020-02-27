@@ -10,5 +10,6 @@ export class TodoRoutes extends BaseRoutes<TodoController> {
 
   private _assignRoutes(): void {
     this.router.get('/', (...args) => this.controller.getAll(...args));
+    this.router.post('/', (...args) => this.controller.create(...args));
   }
 }
