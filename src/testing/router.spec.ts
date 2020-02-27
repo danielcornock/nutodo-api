@@ -4,7 +4,7 @@ import { AppRouter } from '../router';
 import { RouterFactory } from '../factories/router.factory';
 
 describe('AppRouter', () => {
-  let expressApp: express.Application, router: AppRouter, expressRouterStub: Router;
+  let router: AppRouter, expressRouterStub: Router;
 
   beforeEach(() => {
     const nestedRoutes: Router = StubCreator.fake('router');
@@ -12,7 +12,6 @@ describe('AppRouter', () => {
     expressRouterStub = StubCreator.create(ExpressRouterStub);
     jest.spyOn(expressRouterStub, 'use');
 
-    expressApp = StubCreator.create(ExpressAppStub);
     jest.spyOn(RouterFactory, 'create').mockReturnValue(nestedRoutes);
 
     router = new AppRouter(expressRouterStub);
