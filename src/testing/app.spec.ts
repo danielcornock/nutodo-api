@@ -9,9 +9,16 @@ describe('App', () => {
   beforeEach(() => {
     const router: Router = StubCreator.fake('router');
     expressApp = StubCreator.create(ExpressAppStub);
+
     jest.spyOn(RouterFactory, 'create').mockReturnValue(router);
+    jest.spyOn(express, 'json').mockReturnValue(StubCreator.fake('bodyParser'));
 
     application = new App(expressApp);
+  });
+
+  it('should parse the body of incoming requests', () => {
+    expect(express.json).toHaveBeenCalledWith();
+    expect(expressApp.use).toHaveBeenCalledWith('bodyParser');
   });
 
   it('should create the base api url', () => {

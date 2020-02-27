@@ -6,6 +6,7 @@ export class App {
 
   constructor(app: express.Application) {
     this.app = app;
+    app.use(express.json());
     this._initialiseRoutes();
   }
 
