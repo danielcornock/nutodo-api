@@ -1,10 +1,15 @@
-import { PoolConfig, Pool } from 'pg';
+import knex from 'knex';
+
+const knexPool: knex = knex({
+  client: 'postgres',
+  connection: {
+    user: 'danielcornock',
+    database: 'danielcornock'
+  }
+});
 
 export class PoolFactory {
-  static create(): Pool {
-    return new Pool({
-      user: 'danielcornock',
-      database: 'danielcornock'
-    });
+  static create(): knex {
+    return knexPool;
   }
 }
