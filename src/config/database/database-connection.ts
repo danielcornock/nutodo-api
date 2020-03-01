@@ -1,9 +1,9 @@
-import { Pool } from 'pg';
+import Knex from 'knex';
 
 export class DatabaseConnection {
-  public pool: Pool;
+  public query: Knex;
 
-  constructor(pool: Pool) {
-    this.pool = pool;
+  constructor(query: Knex) {
+    this.query = query;
   }
 }
