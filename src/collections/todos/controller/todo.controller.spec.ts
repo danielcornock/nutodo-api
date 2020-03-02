@@ -52,4 +52,61 @@ describe('TodoController', () => {
       });
     });
   });
+
+  describe('when getting one todo', () => {
+    beforeEach(() => {
+      (todoService.getOne as jest.Mock).mockResolvedValue('todo');
+      jest.spyOn(ResponseFactory, 'successFind');
+      req.params.id = 'id';
+      controller.getOne(req, res, next);
+    });
+
+    it('should fetch the todo', () => {
+      expect(todoService.getOne).toHaveBeenCalledWith('id');
+    });
+
+    it('should return the found todo', () => {
+      expect(ResponseFactory.successFind).toHaveBeenCalledWith(res, {
+        data: { todo: 'todo' },
+        name: 'todo'
+      });
+    });
+  });
+
+  describe('when deleting a todo', () => {
+    beforeEach(() => {
+      (todoService.deleteOne as jest.Mock).mockResolvedValue(null);
+      jest.spyOn(ResponseFactory, 'successDelete');
+      req.params.id = 'id';
+      controller.deleteOne(req, res, next);
+    });
+
+    it('should delete the todo', () => {
+      expect(todoService.deleteOne).toHaveBeenCalledWith('id');
+    });
+
+    it('should respond with a 204', () => {
+      expect(ResponseFactory.successDelete).toHaveBeenCalledWith(res);
+    });
+  });
+
+  describe('when updating a todo', () => {
+    beforeEach(() => {
+      (todoService.update as jest.Mock).mockResolvedValue('todo');
+      jest.spyOn(ResponseFactory, 'successCreate');
+      req.params.id = 'id';
+      controller.update(req, res, next);
+    });
+
+    it('should update the todo', () => {
+      expect(todoService.update).toHaveBeenCalledWith('id', req.body);
+    });
+
+    it('should return the created todo', () => {
+      expect(ResponseFactory.successCreate).toHaveBeenCalledWith(res, {
+        data: { todo: 'todo' },
+        name: 'todo'
+      });
+    });
+  });
 });
