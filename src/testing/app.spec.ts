@@ -2,14 +2,19 @@ import { App } from '../app';
 import express, { Router } from 'express';
 import { StubCreator, ExpressAppStub } from '@danielc7150/express-utils/lib';
 import { RouterFactory } from '../factories/router.factory';
+import { ErrorControllerFactory } from '../factories/error-controller.factory';
+import { ErrorController } from '../config/errors/error.controller';
+import { ErrorControllerStub } from '../config/errors/error.controller.stub';
 
 describe('App', () => {
-  let application: App, expressApp: express.Application;
+  let application: App, expressApp: express.Application, errorController: ErrorController;
 
   beforeEach(() => {
     const router: Router = StubCreator.fake('router');
+    errorController = StubCreator.create(ErrorControllerStub);
     expressApp = StubCreator.create(ExpressAppStub);
 
+    jest.spyOn(ErrorControllerFactory, 'create').mockReturnValue(errorController);
     jest.spyOn(RouterFactory, 'create').mockReturnValue(router);
     jest.spyOn(express, 'json').mockReturnValue(StubCreator.fake('bodyParser'));
 
@@ -27,5 +32,9 @@ describe('App', () => {
 
   it('should generate the routes', () => {
     expect(RouterFactory.create).toHaveBeenCalledWith();
+  });
+
+  it('should handle errors thrown within the app', () => {
+    expect(errorController.handleErrors).toHaveBeenCalledWith();
   });
 });

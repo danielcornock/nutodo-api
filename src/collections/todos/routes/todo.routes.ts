@@ -9,7 +9,10 @@ export class TodoRoutes extends BaseRoutes<TodoController> {
   }
 
   private _assignRoutes(): void {
+    this.router.get('/:id', (...args) => this.controller.getOne(...args));
     this.router.get('/', (...args) => this.controller.getAll(...args));
+    this.router.put('/:id', (...args) => this.controller.update(...args));
     this.router.post('/', (...args) => this.controller.create(...args));
+    this.router.delete('/:id', (...args) => this.controller.deleteOne(...args));
   }
 }
