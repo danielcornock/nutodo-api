@@ -2,7 +2,7 @@ export class DatabaseConnectionStub {
   query: jest.Mock = jest.fn();
 }
 
-export class PoolStub {
+export class KnexStub {
   returning: jest.Mock = jest.fn();
   where: jest.Mock = jest.fn();
   update: jest.Mock = jest.fn();

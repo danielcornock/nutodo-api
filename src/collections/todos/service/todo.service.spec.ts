@@ -1,6 +1,6 @@
 import { TodoService } from './todo.service';
 import { StubCreator } from '@danielc7150/express-utils/lib';
-import { PoolStub, DatabaseConnectionStub } from '../../../config/database/database-connection.stub';
+import { DatabaseConnectionStub, KnexStub } from '../../../config/database/database-connection.stub';
 import { ITodo } from '../interfaces/todo.interface';
 import { DatabaseConnection } from '../../../config/database/database-connection';
 import Knex from 'knex';
@@ -11,7 +11,7 @@ describe('TodoService', () => {
   beforeEach(() => {
     db = StubCreator.create(DatabaseConnectionStub);
     query = StubCreator.fake(db.query);
-    queryBuilder = StubCreator.create(PoolStub);
+    queryBuilder = StubCreator.create(KnexStub);
 
     todoService = new TodoService(db);
   });
