@@ -4,12 +4,11 @@ import { TodoService } from '../service/todo.service';
 import { TodoServiceStub } from '../service/todo.service.stub';
 
 describe('TodoController', () => {
-  let controller: TodoController, req: IReq, res: IRes, next: INext, todoService: TodoService;
+  let controller: TodoController, req: IReq, res: IRes, todoService: TodoService;
 
   beforeEach(() => {
     req = StubCreator.create(ReqStub);
     res = StubCreator.create(ResStub);
-    next = jest.fn();
     todoService = StubCreator.create(TodoServiceStub);
     controller = new TodoController(todoService);
   });
@@ -18,7 +17,7 @@ describe('TodoController', () => {
     beforeEach(() => {
       (todoService.getAll as jest.Mock).mockResolvedValue([{ id: 1 }]);
       jest.spyOn(ResponseFactory, 'successFind');
-      controller.getAll(req, res, next);
+      controller.getAll(req, res);
     });
 
     it('should fetch the todos from the service', () => {
@@ -38,7 +37,7 @@ describe('TodoController', () => {
       (todoService.create as jest.Mock).mockResolvedValue({ id: 2 });
       jest.spyOn(ResponseFactory, 'successCreate');
       req.body = { id: 2 };
-      controller.create(req, res, next);
+      controller.create(req, res);
     });
 
     it('should create the new todo', () => {
@@ -58,7 +57,7 @@ describe('TodoController', () => {
       (todoService.getOne as jest.Mock).mockResolvedValue('todo');
       jest.spyOn(ResponseFactory, 'successFind');
       req.params.id = 'id';
-      controller.getOne(req, res, next);
+      controller.getOne(req, res);
     });
 
     it('should fetch the todo', () => {
@@ -78,7 +77,7 @@ describe('TodoController', () => {
       (todoService.deleteOne as jest.Mock).mockResolvedValue(null);
       jest.spyOn(ResponseFactory, 'successDelete');
       req.params.id = 'id';
-      controller.deleteOne(req, res, next);
+      controller.deleteOne(req, res);
     });
 
     it('should delete the todo', () => {
@@ -95,7 +94,7 @@ describe('TodoController', () => {
       (todoService.update as jest.Mock).mockResolvedValue('todo');
       jest.spyOn(ResponseFactory, 'successCreate');
       req.params.id = 'id';
-      controller.update(req, res, next);
+      controller.update(req, res);
     });
 
     it('should update the todo', () => {

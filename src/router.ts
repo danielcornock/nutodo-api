@@ -1,9 +1,9 @@
 import express, { Router } from 'express';
-import { BaseRoutes } from '@danielc7150/express-utils/lib';
+import { BaseRoutes, RouterService } from '@danielc7150/express-utils/lib';
 import { RouterFactory } from './factories/router.factory';
 
 export class AppRouter extends BaseRoutes<void> {
-  constructor(router: Router) {
+  constructor(router: RouterService) {
     super(router);
     this._setRoutes();
   }

@@ -17,7 +17,7 @@
   "author": "Daniel Cornock",
   "license": "ISC",
   "dependencies": {
-    "@danielc7150/express-utils": "^3.6.2",
+    "@danielc7150/express-utils": "^3.7.1",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "knex": "^0.20.10",

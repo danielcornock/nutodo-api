@@ -1,10 +1,10 @@
 import express, { Router } from 'express';
-import { StubCreator, ExpressAppStub, ExpressRouterStub } from '@danielc7150/express-utils/lib';
+import { StubCreator, ExpressAppStub, ExpressRouterStub, RouterService } from '@danielc7150/express-utils/lib';
 import { AppRouter } from '../router';
 import { RouterFactory } from '../factories/router.factory';
 
 describe('AppRouter', () => {
-  let router: AppRouter, expressRouterStub: Router;
+  let router: AppRouter, expressRouterStub: RouterService;
 
   beforeEach(() => {
     expressRouterStub = StubCreator.create(ExpressRouterStub);
