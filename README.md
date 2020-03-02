@@ -1,3 +1,3 @@
-# Nü Todo API
+# Express Boilerplate
 
 `NodeJS` `TypeScript` `Jest`

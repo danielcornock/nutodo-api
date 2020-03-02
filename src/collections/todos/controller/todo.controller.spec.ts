@@ -1,5 +1,5 @@
 import { TodoController } from './todo.controller';
-import { IReq, IRes, ReqStub, ResStub, StubCreator, INext, ResponseFactory } from '@danielc7150/express-utils/lib';
+import { IReq, IRes, ReqStub, ResStub, StubCreator, ResponseFactory } from '@danielc7150/express-utils/lib';
 import { TodoService } from '../service/todo.service';
 import { TodoServiceStub } from '../service/todo.service.stub';
 
