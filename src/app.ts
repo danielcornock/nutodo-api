@@ -1,8 +1,8 @@
 import express from 'express';
 import { RouterFactory } from './factories/router.factory';
-import { INext, IRes, ResponseFactory } from '@danielc7150/express-utils/lib';
 import { ErrorController } from './config/errors/error.controller';
 import { ErrorControllerFactory } from './factories/error-controller.factory';
+import { GlobalMiddleware } from './config/middleware/global-middleware';
 
 export class App {
   public app: express.Application;
@@ -12,6 +12,7 @@ export class App {
     this.app = app;
     this._errorController = ErrorControllerFactory.create(app);
     app.use(express.json());
+    GlobalMiddleware.create(app);
     this._initialiseRoutes();
   }
 
