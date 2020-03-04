@@ -1,4 +1,4 @@
-import { DatabaseConnection } from '../config/database/database-connection';
+import { DatabaseConnection } from '@danielc7150/express-utils';
 import { PoolFactory } from './pool.factory';
 
 export class DatabaseConnectionFactory {
