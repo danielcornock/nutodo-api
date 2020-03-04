@@ -1,5 +1,5 @@
 import express, { Router } from 'express';
-import { StubCreator, ExpressAppStub, ExpressRouterStub, RouterService } from '@danielc7150/express-utils/lib';
+import { StubCreator, ExpressAppStub, ExpressRouterStub, RouterService } from '@danielc7150/express-utils';
 import { AppRouter } from '../router';
 import { RouterFactory } from '../factories/router.factory';
 

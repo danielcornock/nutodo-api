@@ -1,4 +1,4 @@
-import { BaseRoutes, IReq, IRes, RouterService } from '@danielc7150/express-utils/lib';
+import { BaseRoutes, IReq, IRes, RouterService } from '@danielc7150/express-utils';
 import { Router } from 'express';
 import { TodoController } from '../controller/todo.controller';
 

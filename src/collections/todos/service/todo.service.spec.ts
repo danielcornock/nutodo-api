@@ -1,8 +1,8 @@
 import { TodoService } from './todo.service';
-import { StubCreator } from '@danielc7150/express-utils/lib';
-import { DatabaseConnectionStub, KnexStub } from '../../../config/database/database-connection.stub';
+import { StubCreator } from '@danielc7150/express-utils';
+import { DatabaseConnectionStub, KnexStub } from '@danielc7150/express-utils';
 import { ITodo } from '../interfaces/todo.interface';
-import { DatabaseConnection } from '../../../config/database/database-connection';
+import { DatabaseConnection } from '@danielc7150/express-utils';
 import Knex from 'knex';
 
 describe('TodoService', () => {

@@ -1,7 +1,7 @@
 import { ITodo } from '../interfaces/todo.interface';
-import { DatabaseConnection } from 'src/config/database/database-connection';
+import { DatabaseConnection } from '@danielc7150/express-utils';
 import knex from 'knex';
-import { NotFoundException } from '@danielc7150/express-utils/lib';
+import { NotFoundException } from '@danielc7150/express-utils';
 
 export class TodoService {
   private readonly _db: DatabaseConnection;

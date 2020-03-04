@@ -1,6 +1,6 @@
 import express from 'express';
 import { ErrorController } from './error.controller';
-import { ExpressAppStub, StubCreator, ResponseFactory, Logger, InternalServerErrorException, HttpException } from '@danielc7150/express-utils/lib';
+import { ExpressAppStub, StubCreator, ResponseFactory, Logger, InternalServerErrorException, HttpException } from '@danielc7150/express-utils';
 
 describe('ErrorController', () => {
   let errorController: ErrorController, expressApp: express.Application;

@@ -1,5 +1,5 @@
 import express from 'express';
-import { HttpException, IRes, IReq, INext, ResponseFactory, InternalServerErrorException, Logger } from '@danielc7150/express-utils/lib';
+import { HttpException, IRes, IReq, INext, ResponseFactory, InternalServerErrorException, Logger } from '@danielc7150/express-utils';
 
 export class ErrorController {
   private readonly _app: express.Application;
