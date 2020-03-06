@@ -1,7 +1,7 @@
 import { UserService } from './user.service';
 import { DatabaseConnection, DatabaseConnectionStub, StubCreator, UnauthorisedException, KnexStub } from '@danielc7150/express-utils';
 import Axios from 'axios';
-import { OAuthCallbacks } from '../constants/oauth-callbacks';
+import { OAuthCallbacks } from '../constants/oauth-callbacks.constant';
 import Knex = require('knex');
 import { IUser } from '../interfaces/user.interface';
 

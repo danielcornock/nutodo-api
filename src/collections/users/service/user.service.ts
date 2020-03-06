@@ -1,7 +1,7 @@
 import { DatabaseConnection, UnauthorisedException } from '@danielc7150/express-utils';
 import { IUser } from '../interfaces/user.interface';
 import Axios from 'axios';
-import { OAuthCallbacks } from '../constants/oauth-callbacks';
+import { OAuthCallbacks } from '../constants/oauth-callbacks.constant';
 
 export class UserService {
   private readonly _db: DatabaseConnection;
