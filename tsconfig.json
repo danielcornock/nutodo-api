@@ -16,7 +16,8 @@
     "strictFunctionTypes": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "noUnusedParameters": true
+    "noUnusedParameters": true,
+    "typeRoots": ["./config/types", "./node_modules/@types"]
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules", "**/*.spec.ts", "**/*.stub.ts"]
