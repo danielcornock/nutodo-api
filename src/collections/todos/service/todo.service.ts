@@ -1,6 +1,5 @@
 import { ITodo } from '../interfaces/todo.interface';
 import { DatabaseConnection } from '@danielc7150/express-utils';
-import knex from 'knex';
 import { NotFoundException } from '@danielc7150/express-utils';
 
 export class TodoService {

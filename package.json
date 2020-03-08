@@ -7,7 +7,9 @@
     "dev": "tsc-watch --onSuccess \"npm start\"",
     "start": "node ./dist/server.js",
     "test": "jest --watch",
-    "test:cov": "jest --coverage --config jest.config.json --no-cache"
+    "test:cov": "jest --coverage --config jest.config.json --no-cache",
+    "build": "tsc",
+    "lint": "tslint --project tsconfig.json"
   },
   "keywords": [
     "node",
