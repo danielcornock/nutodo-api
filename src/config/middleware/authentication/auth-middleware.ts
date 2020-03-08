@@ -21,7 +21,6 @@ export class AuthMiddleware {
     const user: IUser | undefined = await this._userService.fetchUser(googleRes.user_id);
 
     if (!user) {
-      console.log('do this');
       return next(new UnauthorisedException('This user no longer exists!'));
     }
 
