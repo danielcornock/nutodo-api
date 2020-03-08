@@ -17,15 +17,9 @@ describe('App', () => {
 
     jest.spyOn(ErrorControllerFactory, 'create').mockReturnValue(errorController);
     jest.spyOn(RouterFactory, 'create').mockReturnValue(router);
-    jest.spyOn(express, 'json').mockReturnValue(StubCreator.fake('bodyParser'));
     jest.spyOn(GlobalMiddleware, 'create');
 
     application = new App(expressApp);
-  });
-
-  it('should parse the body of incoming requests', () => {
-    expect(express.json).toHaveBeenCalledWith();
-    expect(expressApp.use).toHaveBeenCalledWith('bodyParser');
   });
 
   it('should initialise the global app middleware', () => {

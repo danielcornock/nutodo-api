@@ -11,7 +11,6 @@ export class App {
   constructor(app: express.Application) {
     this.app = app;
     this._errorController = ErrorControllerFactory.create(app);
-    app.use(express.json());
     GlobalMiddleware.create(app);
     this._initialiseRoutes();
   }
