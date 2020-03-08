@@ -1,5 +1,4 @@
 import { BaseRoutes, IReq, IRes, RouterService } from '@danielc7150/express-utils';
-import { Router } from 'express';
 import { TodoController } from '../controller/todo.controller';
 
 export class TodoRoutes extends BaseRoutes<TodoController> {
