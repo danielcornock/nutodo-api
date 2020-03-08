@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import morgan from 'morgan';
 
 export class GlobalMiddleware {
   constructor(app: express.Application) {
@@ -11,6 +12,8 @@ export class GlobalMiddleware {
   }
 
   private _initialiseMiddleware(app: express.Application): void {
+    app.use(express.json());
+    app.use(morgan('dev'));
     app.use(
       cors({
         origin: 'http://localhost:4200'
