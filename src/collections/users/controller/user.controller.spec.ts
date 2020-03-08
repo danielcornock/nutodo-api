@@ -23,9 +23,9 @@ describe('UserController', () => {
     });
 
     describe('when a user already exists', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         (userService.fetchUser as jest.Mock).mockResolvedValue('user');
-        userController.googleAuthentication(req, res);
+        await userController.googleAuthentication(req, res);
       });
 
       it('should validate the user credentials', () => {
@@ -37,8 +37,26 @@ describe('UserController', () => {
       });
 
       it('should respond with the user', () => {
-        // TODO - Find out why passing 'res' into here does not pass
         expect(ResponseFactory.successCreate).toHaveBeenCalledWith(expect.any(Object), {
+          name: 'user',
+          data: { user: 'user' }
+        });
+      });
+    });
+
+    describe('when it is a new user', () => {
+      beforeEach(async () => {
+        (userService.fetchUser as jest.Mock).mockResolvedValue(undefined);
+        (userService.createUser as jest.Mock).mockResolvedValue('user');
+        await userController.googleAuthentication(req, res);
+      });
+
+      it('should create a new user', () => {
+        expect(userService.createUser).toHaveBeenCalledWith('user_id', 'email');
+      });
+
+      it('should respond with the user', () => {
+        expect(ResponseFactory.successCreate).toHaveBeenCalledWith(res, {
           name: 'user',
           data: { user: 'user' }
         });

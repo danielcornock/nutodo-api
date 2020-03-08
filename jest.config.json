@@ -6,7 +6,7 @@
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
   },
-  "coveragePathIgnorePatterns": ["factories", ".stub.ts", ".constant.ts", ".routes.ts"],
+  "coveragePathIgnorePatterns": ["factories", ".stub.ts", ".constant.ts", ".routes.ts", "router.ts"],
   "coverageDirectory": "./coverage",
   "testEnvironment": "node"
 }
