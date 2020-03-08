@@ -5,7 +5,7 @@ import { RouterFactory } from '../factories/router.factory';
 import { ErrorControllerFactory } from '../factories/error-controller.factory';
 import { ErrorController } from '../config/errors/error.controller';
 import { ErrorControllerStub } from '../config/errors/error.controller.stub';
-import { GlobalMiddleware } from '../config/middleware/global-middleware';
+import { GlobalMiddleware } from '../config/middleware/global/global-middleware';
 
 describe('App', () => {
   let application: App, expressApp: express.Application, errorController: ErrorController;

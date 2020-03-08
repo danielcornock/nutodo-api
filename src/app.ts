@@ -2,7 +2,7 @@ import express from 'express';
 import { RouterFactory } from './factories/router.factory';
 import { ErrorController } from './config/errors/error.controller';
 import { ErrorControllerFactory } from './factories/error-controller.factory';
-import { GlobalMiddleware } from './config/middleware/global-middleware';
+import { GlobalMiddleware } from './config/middleware/global/global-middleware';
 
 export class App {
   public app: express.Application;
