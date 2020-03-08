@@ -1,9 +1,11 @@
 import { BaseRoutes, IReq, IRes, RouterService } from '@danielc7150/express-utils';
 import { TodoController } from '../controller/todo.controller';
+import { GuardedRoutes } from '../../../config/routes/guarded.routes';
+import { AuthMiddleware } from '../../../config/middleware/authentication/auth-middleware';
 
-export class TodoRoutes extends BaseRoutes<TodoController> {
-  constructor(routerService: RouterService, todoController: TodoController) {
-    super(routerService, todoController);
+export class TodoRoutes extends GuardedRoutes<TodoController> {
+  constructor(routerService: RouterService, todoController: TodoController, authMiddleware: AuthMiddleware) {
+    super(routerService, todoController, authMiddleware);
     this._assignRoutes();
   }
 
