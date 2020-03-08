@@ -1,5 +1,5 @@
 import { TodoService } from './todo.service';
-import { StubCreator } from '@danielc7150/express-utils';
+import { StubCreator, NotFoundException } from '@danielc7150/express-utils';
 import { DatabaseConnectionStub, KnexStub } from '@danielc7150/express-utils';
 import { ITodo } from '../interfaces/todo.interface';
 import { DatabaseConnection } from '@danielc7150/express-utils';
@@ -114,7 +114,7 @@ describe('TodoService', () => {
       });
 
       it('should throw a not found exception', () => {
-        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NotFoundException);
       });
     });
   });
@@ -148,7 +148,7 @@ describe('TodoService', () => {
       });
 
       it('should throw an error', () => {
-        expect(error).toBeInstanceOf(Error);
+        expect(error).toBeInstanceOf(NotFoundException);
       });
     });
   });
