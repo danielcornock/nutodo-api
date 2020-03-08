@@ -44,7 +44,7 @@ describe('ErrorController', () => {
         const responseArgs: Array<any> = (ResponseFactory.error as jest.Mock).mock.calls[0];
 
         expect(responseArgs[0]).toBe('res');
-        expect(responseArgs[1]).toBeInstanceOf(Error);
+        expect(responseArgs[1]).toBeInstanceOf(InternalServerErrorException);
       });
 
       it('should log the error', () => {
