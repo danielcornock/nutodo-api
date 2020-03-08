@@ -1,4 +1,4 @@
-import { BaseRoutes, IReq, IRes, RouterService } from '@danielc7150/express-utils';
+import { IReq, IRes, RouterService } from '@danielc7150/express-utils';
 import { TodoController } from '../controller/todo.controller';
 import { GuardedRoutes } from '../../../config/routes/guarded.routes';
 import { AuthMiddleware } from '../../../config/middleware/authentication/auth-middleware';

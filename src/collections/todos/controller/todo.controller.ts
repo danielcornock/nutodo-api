@@ -1,4 +1,4 @@
-import { IReq, IRes, INext, ResponseFactory } from '@danielc7150/express-utils';
+import { IReq, IRes, ResponseFactory } from '@danielc7150/express-utils';
 import { TodoService } from '../service/todo.service';
 import { TODO_DOCUMENT_NAMES } from '../constants/todo-document-names.constant';
 import { ITodo } from '../interfaces/todo.interface';
