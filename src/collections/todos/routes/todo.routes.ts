@@ -1,19 +1,21 @@
-import { IReq, IRes, RouterService } from '@danielc7150/express-utils';
-import { TodoController } from '../controller/todo.controller';
-import { GuardedRoutes } from '../../../config/routes/guarded.routes';
+import { RouterService } from '@danielc7150/express-utils';
+
 import { AuthMiddleware } from '../../../config/middleware/authentication/auth-middleware';
+import { GuardedRoutes } from '../../../config/routes/guarded.routes';
+import { TodoController } from '../controller/todo.controller';
 
 export class TodoRoutes extends GuardedRoutes<TodoController> {
   constructor(routerService: RouterService, todoController: TodoController, authMiddleware: AuthMiddleware) {
     super(routerService, todoController, authMiddleware);
-    this._assignRoutes();
+    this._assignRoutes(todoController);
   }
 
-  private _assignRoutes(): void {
-    this.router.get('/:id', (req: IReq, res: IRes) => this.controller.getOne(req, res));
-    this.router.get('/', (req: IReq, res: IRes) => this.controller.getAll(req, res));
-    this.router.put('/:id', (req: IReq, res: IRes) => this.controller.update(req, res));
-    this.router.post('/', (req: IReq, res: IRes) => this.controller.create(req, res));
-    this.router.delete('/:id', (req: IReq, res: IRes) => this.controller.deleteOne(req, res));
+  private _assignRoutes(controller: TodoController): void {
+    this.router.get('/template', controller.getTemplate.bind(controller));
+    this.router.get('/:id', controller.getOne.bind(controller));
+    this.router.get('/', controller.getAll.bind(controller));
+    this.router.put('/:id', controller.update.bind(controller));
+    this.router.post('/', controller.create.bind(controller));
+    this.router.delete('/:id', controller.deleteOne.bind(controller));
   }
 }
