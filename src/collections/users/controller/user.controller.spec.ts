@@ -9,12 +9,10 @@ describe('UserController', () => {
 
   beforeEach(() => {
     userService = StubCreator.create(UserServiceStub);
-    userController = new UserController(userService);
-
     responseFactory = StubCreator.create(ResponseFactoryStub);
-
     jest.spyOn(ResponseFactory, 'create').mockReturnValue(responseFactory);
 
+    userController = new UserController(userService);
     req = StubCreator.create(ReqStub);
     res = StubCreator.create(ResStub);
   });
@@ -40,7 +38,7 @@ describe('UserController', () => {
       });
 
       it('should respond with the user', () => {
-        expect(responseFactory.successCreate).toHaveBeenCalledWith(expect.any(Object), {
+        expect(responseFactory.successCreate).toHaveBeenCalledWith(res, {
           name: 'user',
           data: { user: 'user' }
         });
