@@ -14,9 +14,9 @@
     "strict": true,
     "noImplicitAny": true,
     "strictFunctionTypes": true,
-    "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "noUnusedParameters": true,
+    "esModuleInterop": true,
     "typeRoots": ["./config/types", "./node_modules/@types"]
   },
   "include": ["src/**/*"],
