@@ -1,9 +1,15 @@
-import { TodoService } from './todo.service';
-import { StubCreator, NotFoundException } from '@danielc7150/express-utils';
-import { DatabaseConnectionStub, KnexStub } from '@danielc7150/express-utils';
-import { ITodo } from '../interfaces/todo.interface';
-import { DatabaseConnection } from '@danielc7150/express-utils';
+import {
+  DatabaseConnection,
+  DatabaseConnectionStub,
+  KnexStub,
+  NotFoundException,
+  StubCreator,
+} from '@danielc7150/express-utils';
 import Knex from 'knex';
+
+import { TodoResponse } from '../data-objects/todo-response';
+import { ITodo } from '../interfaces/todo.interface';
+import { TodoService } from './todo.service';
 
 describe('TodoService', () => {
   let todoService: TodoService, db: DatabaseConnection, query: jest.Mock, queryBuilder: Knex;
@@ -17,11 +23,14 @@ describe('TodoService', () => {
   });
 
   describe('when getting all todos', () => {
-    let result: Array<ITodo>;
+    let result: Array<TodoResponse>;
 
     beforeEach(async () => {
-      (query as jest.Mock).mockReturnValue(['todo1', 'todo2']);
-      result = await todoService.getAll();
+      (query as jest.Mock).mockReturnValue(queryBuilder);
+      (queryBuilder.where as jest.Mock).mockReturnValue([
+        { id: '1', title: 'title', category: 'week', completed: true }
+      ]);
+      result = await todoService.getAll('userId');
     });
 
     it('should create the query', () => {
@@ -29,58 +38,91 @@ describe('TodoService', () => {
     });
 
     it('should return the found todos', () => {
-      expect(result).toEqual(['todo1', 'todo2']);
+      expect(result).toEqual([{ id: '1', title: 'title', category: 'week', completed: true }]);
     });
   });
 
   describe('when creating a todo', () => {
-    let result: ITodo;
+    let result: TodoResponse;
 
     beforeEach(async () => {
       (query as jest.Mock).mockReturnValue(queryBuilder);
       (queryBuilder.returning as jest.Mock).mockReturnThis();
-      (queryBuilder.insert as jest.Mock).mockReturnValue(['todo']);
+      (queryBuilder.insert as jest.Mock).mockReturnValue([
+        {
+          id: '1',
+          title: 'title',
+          category: 'week',
+          completed: true
+        }
+      ]);
 
-      result = await todoService.create({ title: 'todo' } as ITodo);
+      result = await todoService.create({ title: 'title', category: 'week', completed: true } as ITodo, 'userId');
     });
 
     it('should create the query', () => {
       expect(query).toHaveBeenCalledWith('todos');
       expect(queryBuilder.returning).toHaveBeenCalledWith('*');
-      expect(queryBuilder.insert).toHaveBeenCalledWith({ title: 'todo' });
+      expect(queryBuilder.insert).toHaveBeenCalledWith({
+        title: 'title',
+        category: 'week',
+        completed: true,
+        user: 'userId'
+      });
     });
 
     it('should return the created todo', () => {
-      expect(result).toEqual('todo');
+      expect(result).toEqual({
+        id: '1',
+        title: 'title',
+        category: 'week',
+        completed: true
+      });
     });
   });
 
   describe('when updating a todo', () => {
-    let result: ITodo;
+    let result: TodoResponse;
 
     beforeEach(async () => {
       (query as jest.Mock).mockReturnValue(queryBuilder);
       (queryBuilder.where as jest.Mock).mockReturnThis();
       (queryBuilder.update as jest.Mock).mockReturnThis();
-      (queryBuilder.returning as jest.Mock).mockReturnValue(['todo']);
+      (queryBuilder.returning as jest.Mock).mockReturnValue([
+        {
+          id: '1',
+          title: 'title',
+          category: 'week',
+          completed: true
+        }
+      ]);
 
-      result = await todoService.update('id', { title: 'todo' } as ITodo);
+      result = await todoService.update(
+        'id',
+        { id: 'id', title: 'title', category: 'week', completed: true } as ITodo,
+        'userId'
+      );
     });
 
     it('should create the query', () => {
       expect(query).toHaveBeenCalledWith('todos');
-      expect(queryBuilder.where).toHaveBeenCalledWith({ id: 'id' });
-      expect(queryBuilder.update).toHaveBeenCalledWith({ title: 'todo' });
+      expect(queryBuilder.where).toHaveBeenCalledWith({ id: 'id', user: 'userId' });
+      expect(queryBuilder.update).toHaveBeenCalledWith({
+        title: 'title',
+        category: 'week',
+        completed: true,
+        user: 'userId'
+      });
       expect(queryBuilder.returning).toHaveBeenCalledWith('*');
     });
 
     it('should return the updated todo', () => {
-      expect(result).toBe('todo');
+      expect(result).toEqual({ category: 'week', completed: true, id: '1', title: 'title' });
     });
   });
 
   describe('when getting one todo', () => {
-    let result: ITodo | void, error: any;
+    let result: TodoResponse | void, error: any;
 
     beforeEach(() => {
       (query as jest.Mock).mockReturnValue(queryBuilder);
@@ -89,26 +131,32 @@ describe('TodoService', () => {
 
     describe('when a todo is found', () => {
       beforeEach(async () => {
-        (queryBuilder.first as jest.Mock).mockReturnValue('todo');
+        (queryBuilder.first as jest.Mock).mockReturnValue({
+          category: 'week',
+          completed: true,
+          id: '1',
+          title: 'title'
+        });
 
-        result = await todoService.getOne('id');
+        result = await todoService.getOne('id', 'userId');
       });
 
       it('should create the query', () => {
         expect(query).toHaveBeenCalledWith('todos');
-        expect(queryBuilder.where).toHaveBeenCalledWith({ id: 'id' });
+        expect(queryBuilder.where).toHaveBeenCalledWith({ id: 'id', user: 'userId' });
         expect(queryBuilder.first).toHaveBeenCalledWith();
       });
 
       it('should return the result', () => {
-        expect(result).toBe('todo');
+        expect(result).toEqual({ category: 'week', completed: true, id: '1', title: 'title' });
       });
     });
+
     describe('when no todo can be found', () => {
       beforeEach(async () => {
         (queryBuilder.first as jest.Mock).mockReturnValue(null);
 
-        result = await todoService.getOne('id').catch((e) => {
+        result = await todoService.getOne('id', 'userId').catch((e) => {
           error = e;
         });
       });
@@ -128,12 +176,12 @@ describe('TodoService', () => {
     describe('when a todo is deleted', () => {
       beforeEach(() => {
         (queryBuilder.delete as jest.Mock).mockReturnValue(1);
-        todoService.deleteOne('id');
+        todoService.deleteOne('id', 'userId');
       });
 
       it('should create the query', () => {
         expect(query).toHaveBeenCalledWith('todos');
-        expect(queryBuilder.where).toHaveBeenCalledWith({ id: 'id' });
+        expect(queryBuilder.where).toHaveBeenCalledWith({ id: 'id', user: 'userId' });
         expect(queryBuilder.delete).toHaveBeenCalledWith();
       });
     });
@@ -142,7 +190,7 @@ describe('TodoService', () => {
       let error: any;
       beforeEach(() => {
         (queryBuilder.delete as jest.Mock).mockReturnValue(0);
-        todoService.deleteOne('id').catch((e) => {
+        todoService.deleteOne('id', 'userId').catch((e) => {
           error = e;
         });
       });

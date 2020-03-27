@@ -1,6 +1,9 @@
+import { DatabaseConnection, NotFoundException } from '@danielc7150/express-utils';
+
+import { TodoDBInsert } from '../data-objects/todo-db-insert';
+import { TodoRequest } from '../data-objects/todo-request';
+import { TodoResponse } from '../data-objects/todo-response';
 import { ITodo } from '../interfaces/todo.interface';
-import { DatabaseConnection } from '@danielc7150/express-utils';
-import { NotFoundException } from '@danielc7150/express-utils';
 
 export class TodoService {
   private readonly _db: DatabaseConnection;
@@ -9,47 +12,52 @@ export class TodoService {
     this._db = db;
   }
 
-  public async getAll(): Promise<any> {
-    const result: Array<ITodo> = await this._db.query<ITodo>('todos');
-    return result;
+  public async getAll(user: string): Promise<Array<TodoResponse>> {
+    const result: Array<ITodo> = await this._db.query<ITodo>('todos').where({ user });
+
+    return result.map((todo: ITodo) => {
+      return new TodoResponse(todo);
+    });
   }
 
-  public async create(todo: ITodo): Promise<ITodo> {
+  public async create(todo: TodoRequest, user: string): Promise<TodoResponse> {
+    const databaseInsert: TodoDBInsert = new TodoDBInsert(todo, user);
     const result: Array<ITodo> = await this._db
-      .query<ITodo>('todos')
+      .query<TodoDBInsert>('todos')
       .returning('*')
-      .insert(todo);
+      .insert(databaseInsert);
 
-    return result[0];
+    return new TodoResponse(result[0]);
   }
 
-  public async update(id: string, todo: ITodo): Promise<ITodo> {
-    const result: Array<ITodo> = await this._db
-      .query<ITodo>('todos')
-      .where({ id })
-      .update(todo)
-      .returning('*');
+  public async update(id: string, todo: TodoRequest, user: string): Promise<TodoResponse> {
+    const databaseInsert: TodoDBInsert = new TodoDBInsert(todo, user);
+    const result: Array<ITodo> = (await this._db
+      .query<TodoRequest>('todos')
+      .where({ id, user })
+      .update(databaseInsert)
+      .returning('*')) as Array<ITodo>;
 
-    return result[0];
+    return new TodoResponse(result[0]);
   }
 
-  public async getOne(id: string): Promise<ITodo> {
+  public async getOne(id: string, user: string): Promise<TodoResponse> {
     const result: ITodo = (await this._db
       .query<ITodo>('todos')
-      .where({ id })
+      .where({ id, user })
       .first()) as ITodo;
 
     if (!result) {
       throw new NotFoundException('This todo cannot be found.');
     }
 
-    return result;
+    return new TodoResponse(result);
   }
 
-  public async deleteOne(id: string): Promise<void> {
+  public async deleteOne(id: string, user: string): Promise<void> {
     const count: number = await this._db
       .query<ITodo>('todos')
-      .where({ id })
+      .where({ id, user })
       .delete();
 
     if (!count) {
