@@ -1,20 +1,30 @@
+import {
+  HttpException,
+  INext,
+  InternalServerErrorException,
+  IReq,
+  IRes,
+  Logger,
+  ResponseFactory,
+} from '@danielc7150/express-utils';
 import express from 'express';
-import { HttpException, IRes, IReq, INext, ResponseFactory, InternalServerErrorException, Logger } from '@danielc7150/express-utils';
 
 export class ErrorController {
   private readonly _app: express.Application;
+  private readonly _responseFactory: ResponseFactory;
 
   constructor(app: express.Application) {
     this._app = app;
+    this._responseFactory = ResponseFactory.create('error');
   }
 
   public handleErrors(): void {
     this._app.use((error: HttpException, _req: IReq, res: IRes, _next: INext) => {
       if (error.statusCode) {
-        ResponseFactory.error(res, error);
+        this._responseFactory.error(res, error);
       } else {
         Logger.console(error);
-        ResponseFactory.error(res, new InternalServerErrorException());
+        this._responseFactory.error(res, new InternalServerErrorException());
       }
     });
   }

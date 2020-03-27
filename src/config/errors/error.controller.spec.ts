@@ -1,13 +1,22 @@
+import {
+  ExpressAppStub,
+  InternalServerErrorException,
+  Logger,
+  ResponseFactory,
+  ResponseFactoryStub,
+  StubCreator,
+} from '@danielc7150/express-utils';
 import express from 'express';
+
 import { ErrorController } from './error.controller';
-import { ExpressAppStub, StubCreator, ResponseFactory, Logger, InternalServerErrorException, HttpException } from '@danielc7150/express-utils';
 
 describe('ErrorController', () => {
-  let errorController: ErrorController, expressApp: express.Application;
+  let errorController: ErrorController, expressApp: express.Application, responseFactory: ResponseFactory;
 
   beforeEach(() => {
     expressApp = StubCreator.create(ExpressAppStub);
-    jest.spyOn(ResponseFactory, 'error').mockImplementation(() => null);
+    responseFactory = StubCreator.create(ResponseFactoryStub);
+    jest.spyOn(ResponseFactory, 'create').mockReturnValue(responseFactory);
     errorController = new ErrorController(expressApp);
   });
 
@@ -29,19 +38,19 @@ describe('ErrorController', () => {
       });
 
       it('should create a response with the thrown error', () => {
-        expect(ResponseFactory.error).toHaveBeenCalledWith('res', { statusCode: 404 });
+        expect(responseFactory.error).toHaveBeenCalledWith('res', { statusCode: 404 });
       });
     });
 
     describe('when a non-operational error is thrown', () => {
       beforeEach(() => {
         jest.spyOn(Logger, 'console').mockImplementation(() => null);
-        (ResponseFactory.error as jest.Mock).mockClear();
+        (responseFactory.error as jest.Mock).mockClear();
         errorCallback('error', 'req', 'res', 'next');
       });
 
       it('should throw an internal server error exception', () => {
-        const responseArgs: Array<any> = (ResponseFactory.error as jest.Mock).mock.calls[0];
+        const responseArgs: Array<any> = (responseFactory.error as jest.Mock).mock.calls[0];
 
         expect(responseArgs[0]).toBe('res');
         expect(responseArgs[1]).toBeInstanceOf(InternalServerErrorException);
