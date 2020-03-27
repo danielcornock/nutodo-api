@@ -26,6 +26,7 @@ export class TodoController {
 
   public async create(req: IReq, res: IRes): Promise<void> {
     const reqTodo: TodoRequest = new TodoRequest(req.body);
+
     const todo: TodoResponse = await this._todoService.create(reqTodo, req.user.id);
 
     this._responseFactory.successCreate(res, {
@@ -36,7 +37,9 @@ export class TodoController {
 
   public async update(req: IReq, res: IRes): Promise<void> {
     const todoUpdate: TodoRequest = new TodoRequest(req.body);
+
     const todo: TodoResponse = await this._todoService.update(req.params.id, todoUpdate, req.user.id);
+
     this._responseFactory.successCreate(res, {
       data: { todo },
       name: TODO_DOCUMENT_NAMES.singular
@@ -45,6 +48,7 @@ export class TodoController {
 
   public async getOne(req: IReq, res: IRes): Promise<void> {
     const todo: TodoResponse = await this._todoService.getOne(req.params.id, req.user.id);
+
     this._responseFactory.successFind(res, {
       data: { todo },
       name: TODO_DOCUMENT_NAMES.singular
@@ -53,6 +57,7 @@ export class TodoController {
 
   public async deleteOne(req: IReq, res: IRes): Promise<void> {
     await this._todoService.deleteOne(req.params.id, req.user.id);
+
     this._responseFactory.successDelete(res);
   }
 
