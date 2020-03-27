@@ -1,6 +1,7 @@
 import { IReq, IRes, ReqStub, ResponseFactory, ResponseFactoryStub, ResStub, StubCreator } from '@danielc7150/express-utils';
 
 import { TodoRequest } from '../data-objects/todo-request';
+import { todoTemplate } from '../data-objects/todo-template';
 import { TodoService } from '../service/todo.service';
 import { TodoServiceStub } from '../service/todo.service.stub';
 import { TodoController } from './todo.controller';
@@ -111,6 +112,20 @@ describe('TodoController', () => {
       expect(responseFactory.successCreate).toHaveBeenCalledWith(res, {
         data: { todo: 'todo' },
         name: 'todo'
+      });
+    });
+  });
+
+  describe('when getting a todo template', () => {
+    beforeEach(() => {
+      controller.getTemplate(req, res);
+    });
+
+    it('should return a todo template', () => {
+      expect(responseFactory.successFind).toHaveBeenCalledWith(res, {
+        data: { todoTemplate: todoTemplate as any },
+        name: 'todoTemplate',
+        selfLinkOverride: 'todos'
       });
     });
   });

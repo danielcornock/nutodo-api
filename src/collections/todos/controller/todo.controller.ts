@@ -56,7 +56,7 @@ export class TodoController {
     this._responseFactory.successDelete(res);
   }
 
-  public async getTemplate(_req: IReq, res: IRes): Promise<void> {
+  public getTemplate(_req: IReq, res: IRes): void {
     this._responseFactory.successFind(res, {
       data: { todoTemplate: todoTemplate as any },
       name: 'todoTemplate',
