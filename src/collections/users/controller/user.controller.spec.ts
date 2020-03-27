@@ -1,16 +1,19 @@
-import { UserController } from './user.controller';
+import { IReq, IRes, ReqStub, ResponseFactory, ResponseFactoryStub, ResStub, StubCreator } from '@danielc7150/express-utils';
+
 import { UserService } from '../service/user.service';
-import { IReq, IRes, ExpressRouterStub, StubCreator, ReqStub, ResStub, ResponseFactory } from '@danielc7150/express-utils';
 import { UserServiceStub } from '../service/user.service.stub';
+import { UserController } from './user.controller';
 
 describe('UserController', () => {
-  let userController: UserController, userService: UserService, req: IReq, res: IRes;
+  let userController: UserController, userService: UserService, req: IReq, res: IRes, responseFactory: ResponseFactory;
 
   beforeEach(() => {
     userService = StubCreator.create(UserServiceStub);
     userController = new UserController(userService);
 
-    jest.spyOn(ResponseFactory, 'successCreate');
+    responseFactory = StubCreator.create(ResponseFactoryStub);
+
+    jest.spyOn(ResponseFactory, 'create').mockReturnValue(responseFactory);
 
     req = StubCreator.create(ReqStub);
     res = StubCreator.create(ResStub);
@@ -37,7 +40,7 @@ describe('UserController', () => {
       });
 
       it('should respond with the user', () => {
-        expect(ResponseFactory.successCreate).toHaveBeenCalledWith(expect.any(Object), {
+        expect(responseFactory.successCreate).toHaveBeenCalledWith(expect.any(Object), {
           name: 'user',
           data: { user: 'user' }
         });
@@ -56,7 +59,7 @@ describe('UserController', () => {
       });
 
       it('should respond with the user', () => {
-        expect(ResponseFactory.successCreate).toHaveBeenCalledWith(res, {
+        expect(responseFactory.successCreate).toHaveBeenCalledWith(res, {
           name: 'user',
           data: { user: 'user' }
         });
