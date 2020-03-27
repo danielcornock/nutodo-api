@@ -1,6 +1,6 @@
-import { UserService } from 'src/collections/users/service/user.service';
-import { IReq, IRes, INext, UnauthorisedException } from '@danielc7150/express-utils';
+import { INext, IReq, IRes, UnauthorisedException } from '@danielc7150/express-utils';
 import { IUser } from 'src/collections/users/interfaces/user.interface';
+import { UserService } from 'src/collections/users/service/user.service';
 
 export class AuthMiddleware {
   private readonly _userService: UserService;

@@ -1,9 +1,10 @@
-import { AppRouter } from '../router';
-import { Router } from 'express';
-import { TodoRoutes } from '../collections/todos/routes/todo.routes';
-import { ControllerFactory } from './controller.factory';
 import { RouterServiceFactory } from '@danielc7150/express-utils';
+import { Router } from 'express';
+
+import { TodoRoutes } from '../collections/todos/routes/todo.routes';
 import { UserRoutes } from '../collections/users/routes/user.routes';
+import { AppRouter } from '../router';
+import { ControllerFactory } from './controller.factory';
 import { MiddlewareFactory } from './middleware.factory';
 
 export class RouterFactory {
